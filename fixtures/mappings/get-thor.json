@@ -1,0 +1,16 @@
+{
+  "id": "547eec49-e53e-40fd-8760-24f72efefd18",
+  "uuid": "547eec49-e53e-40fd-8760-24f72efefd18",
+  "name": "Get Thor",
+  "request": {
+    "method": "GET",
+    "url": "/aesir/thor"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"name\": \"Thor\"}",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}

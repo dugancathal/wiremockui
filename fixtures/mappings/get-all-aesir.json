@@ -1,0 +1,16 @@
+{
+  "id": "76ada7b0-49ae-4229-91c4-396a36f18e09",
+  "uuid": "76ada7b0-49ae-4229-91c4-396a36f18e09",
+  "name": "Get All Aesir",
+  "request": {
+    "method": "GET",
+    "url": "/aesir"
+  },
+  "response": {
+    "status": 200,
+    "body": "[{\"name\": \"Thor\"}, {\"name\": \"Odin\"}]",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}
