@@ -13,7 +13,10 @@ import { Row } from './table';
       </thead>
       <tbody>
       <tr *ngFor="let row of rows">
-        <td *ngFor="let cell of row">{{cell.formatter(cell.value)}}</td>
+        <td *ngFor="let cell of row">
+          <a *ngIf="cell.href" [routerLink]="cell.href">{{cell.formatter(cell.value)}}</a>
+          <span *ngIf="!cell.href">{{cell.formatter(cell.value)}}</span>
+        </td>
       </tr>
       </tbody>
     </table>

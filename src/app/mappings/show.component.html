@@ -1,0 +1,51 @@
+<h1>{{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}</h1>
+<button class="show-json" type="button" (click)="showJSON = !showJSON">Show Raw JSON</button>
+<pre class="code raw-json" *ngIf="showJSON">{{mapping | json}}</pre>
+
+<div>
+  <h3>Request</h3>
+  <dl>
+    <dt>Method</dt>
+    <dd>{{mapping.request.method}}</dd>
+
+    <dt>URL</dt>
+    <dd>{{mapping.request.url}}</dd>
+
+    <dt>Headers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let header of keys(mapping.request.headers)">
+          {{header}}: {{mapping.request.headers[header] | json}}
+        </li>
+      </ul>
+    </dd>
+
+    <dt>Body Matchers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let matcher of (mapping.request.bodyPatterns || [])">
+          {{matcher | json}}
+        </li>
+      </ul>
+    </dd>
+  </dl>
+</div>
+
+
+<h3>Response</h3>
+<dl>
+  <dt>Status</dt>
+  <dd>{{mapping.response.status}}</dd>
+
+  <dt>Body</dt>
+  <dd>{{mapping.response.body}}</dd>
+
+  <dt>Headers</dt>
+  <dd>
+    <ul>
+      <li *ngFor="let header of keys(mapping.response.headers)">
+        {{header}}: {{mapping.response.headers[header] | json}}
+      </li>
+    </ul>
+  </dd>
+</dl>

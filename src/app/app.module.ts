@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConfigComponent } from './config/config.component'
 import { TableComponent } from './lib/table/table.component'
 import { MappingsListComponent } from './mappings/list.component'
+import { MappingShowComponent } from './mappings/show.component'
 import { ROUTING_MODULE } from './routing.module'
 import { WiremockUrlService } from './wiremock/wiremock-url.service'
 import { WiremockService } from './wiremock/wiremock.service'
@@ -18,6 +19,7 @@ import { WiremockService } from './wiremock/wiremock.service'
   declarations: [
     AppComponent,
     MappingsListComponent,
+    MappingShowComponent,
     TableComponent,
     ConfigComponent,
   ],

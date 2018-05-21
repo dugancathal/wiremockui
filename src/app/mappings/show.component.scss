@@ -1,0 +1,45 @@
+@import '../../styles/colors';
+
+.code {
+  background-color: $medium-gray;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+dl {
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0
+}
+dt {
+  float: left;
+  width: calc(50% - 2rem);
+
+  padding: 0;
+  padding-right: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+
+  clear: both;
+  text-align: right;
+}
+dd {
+  float: left;
+  width: calc(50% - 2rem);
+
+  padding: 0;
+  padding-left: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+ul, li {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+}

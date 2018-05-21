@@ -49,7 +49,7 @@ export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
     declarations: [Host, childComp, TestAnchor, ...(moduleMerge.declarations || [])],
     providers: [...(moduleMerge.providers || [])],
     imports: [CommonModule, BrowserModule, FormsModule, ...(moduleMerge.imports || [])],
-    entryComponents: [Host, childComp, ...(moduleMerge.imports || [])]
+    entryComponents: [Host, childComp, ...(moduleMerge.entryComponents || [])]
   })
   class TestModule {
     static host = Host

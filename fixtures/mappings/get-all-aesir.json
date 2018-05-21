@@ -8,9 +8,16 @@
   },
   "response": {
     "status": 200,
-    "body": "[{\"name\": \"Thor\"}, {\"name\": \"Odin\"}]",
+    "jsonBody": [
+      {"name": "Thor"},
+      {"name": "Odin"},
+      {"name": "Baldur"},
+      {"name": "Heimidal"},
+      {"name": "Frigg"},
+      {"name": "Tyr"}
+    ],
     "headers": {
-      "Content-Type": "text/plain"
+      "Content-Type": "application/json"
     }
   }
 }
