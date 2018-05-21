@@ -9,6 +9,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
 
 export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
@@ -25,7 +26,7 @@ export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
   })
   class Host implements OnInit {
     @ViewChild(TestAnchor) anchor
-    private compRef: ComponentRef<any>
+    compRef: ComponentRef<any>
 
     constructor(private compFactory: ComponentFactoryResolver) {
     }
@@ -47,7 +48,7 @@ export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
   @NgModule({
     declarations: [Host, childComp, TestAnchor, ...(moduleMerge.declarations || [])],
     providers: [...(moduleMerge.providers || [])],
-    imports: [CommonModule, BrowserModule, ...(moduleMerge.imports || [])],
+    imports: [CommonModule, BrowserModule, FormsModule, ...(moduleMerge.imports || [])],
     entryComponents: [Host, childComp, ...(moduleMerge.imports || [])]
   })
   class TestModule {
