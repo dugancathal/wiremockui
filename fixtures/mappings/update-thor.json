@@ -1,0 +1,29 @@
+{
+  "id": "ddfa474d-e81d-4c6c-a522-ce8ca376ba2f",
+  "uuid": "ddfa474d-e81d-4c6c-a522-ce8ca376ba2f",
+  "name": "Update Thor",
+  "request": {
+    "method": "PUT",
+    "url": "/aesir/thor",
+    "headers": {
+      "Content-Type": {
+        "contains": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "contains": "foo"
+      },
+      {
+        "contains": "bar"
+      }
+    ]
+  },
+  "response": {
+    "status": 422,
+    "jsonBody": {"sorry": "nope"},
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}

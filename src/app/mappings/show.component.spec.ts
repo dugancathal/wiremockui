@@ -1,6 +1,7 @@
 import { async, TestBed } from '@angular/core/testing'
 import { ActivatedRoute } from '@angular/router'
 import { of } from 'rxjs/observable/of'
+import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
 import { WiremockService } from '../wiremock/wiremock.service'
 import { MappingShowComponent } from './show.component'
@@ -13,6 +14,7 @@ describe('MappingShowComponent', () => {
       .and.returnValue(of([{}, {}, {}, {}]))
   }
   const HostModule = createHost(MappingShowComponent, {}, {
+    imports: [fakeRoutes(MappingShowComponent)],
     providers: [
       {provide: WiremockService, useValue: wiremockMock},
       {provide: ActivatedRoute, useValue: {paramMap: of({get: () => 999})}}

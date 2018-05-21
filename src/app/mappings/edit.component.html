@@ -1,0 +1,71 @@
+<h1>Edit {{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}</h1>
+<form [formGroup]="form" (submit)="save()">
+  <label for="mapping-name">Name</label>
+  <input type="text" id="mapping-name" formControlName="name">
+  <div class="request-definition" formGroupName="request">
+    <h3>Request</h3>
+    <dl>
+      <dt>Method</dt>
+      <dd><input name="request-method" formControlName="method"/></dd>
+
+      <dt>URL</dt>
+      <dd><input name="request-url" formControlName="url"/></dd>
+
+      <dt>Headers (JSON)</dt>
+      <dd>
+        <ul formGroupName="headers">
+          <li *ngFor="let header of keys(headerControls('request').controls)">
+            {{header}}: <input name="request-header-{{header}}" [formControlName]="header"/>
+            <button type="button" class="icon" (click)="removeRequestHeader(header)">X</button>
+          </li>
+          <li>
+            <input name="new-request-header" #newReqHeader>
+            <button type="button" class="icon" (click)="addRequestHeader(newReqHeader.value)">+</button>
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        Body Matchers (JSON)
+        <button type="button" class="icon" (click)="addBodyMatcher()">+</button>
+      </dt>
+      <dd>
+        <ul formArrayName="bodyPatterns">
+          <li *ngFor="let matcher of patternsControls.controls; let i = index">
+            <input name="request-matcher-{{i}}" [formControlName]="i"/>
+            <button type="button" class="icon" (click)="removeBodyPattern(i)">X</button>
+          </li>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+
+  <div class="response-definition" formGroupName="response">
+    <h3>Response</h3>
+    <dl>
+      <dt>Status</dt>
+      <dd><input name="response-status" formControlName="status"/></dd>
+
+      <dt>Body</dt>
+      <dd><input name="response-body" formControlName="body"/></dd>
+
+      <dt>Headers</dt>
+      <dd>
+        <ul formGroupName="headers">
+          <li *ngFor="let header of keys(headerControls('response').controls)">
+            {{header}}: <input name="response-header-{{header}}" [formControlName]="header"/>
+            <button type="button" class="icon" (click)="removeResponseHeader(header)">X</button>
+          </li>
+          <li>
+            <input name="new-response-header" #newRespHeader>
+            <button type="button" class="icon" (click)="addResponseHeader(newRespHeader.value)">+</button>
+          </li>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+
+  <div class="actions">
+    <button class="submit buttonish" type="submit">Save</button>
+  </div>
+</form>

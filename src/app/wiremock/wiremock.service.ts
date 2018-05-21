@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 import {
+  dumpMapping,
+  dumpRequest,
   enrichMapping,
   enrichRequest,
   Mapping,
@@ -31,7 +33,11 @@ export class WiremockService {
   }
 
   requestsMatching(request: Request): Observable<RecordedRequest[]> {
-    return this.http.post(`${this.baseUrl}/__admin/requests/find`, request)
+    return this.http.post(`${this.baseUrl}/__admin/requests/find`, dumpRequest(request))
       .map((resp: RequestsResponse) => resp.requests.map(enrichRequest))
+  }
+
+  updateMapping(mappingId: string, updated: Mapping) {
+    return this.http.put(`${this.baseUrl}/__admin/mappings/${mappingId}`, dumpMapping(updated))
   }
 }

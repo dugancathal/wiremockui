@@ -6,7 +6,7 @@ import { WiremockService } from '../wiremock/wiremock.service'
 
 @Component({
   selector: 'mapping-show',
-  styleUrls: ['./show.component.scss'],
+  styleUrls: ['./mapping.component.scss'],
   templateUrl: './show.component.html',
 })
 export class MappingShowComponent implements OnInit {

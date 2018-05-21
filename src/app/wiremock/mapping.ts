@@ -56,7 +56,20 @@ export const EMPTY_MAPPING = Object.freeze({
 })
 
 export const enrichRequest = (request) => {
-  return request
+  const headers = request.headers || {}
+  const bodyPatterns = request.bodyPatterns || []
+  return {
+    ...request,
+    bodyPatterns: bodyPatterns.map(pattern => JSON.stringify(pattern)),
+    headers: {
+      ...(
+        Object.keys(headers).reduce((acc, header) => {
+          acc[header] = JSON.stringify(headers[header] || {})
+          return acc
+        }, {})
+      )
+    },
+  }
 }
 
 export const enrichResponse = (response) => {
@@ -71,5 +84,28 @@ export const enrichMapping = (mapping): Mapping => {
     ...mapping,
     request: enrichRequest(mapping.request),
     response: enrichResponse(mapping.response),
+  } as Mapping
+}
+
+export const dumpRequest = (request) => {
+  return {
+    ...request,
+    bodyPatterns: request.bodyPatterns.map(pattern => JSON.parse(pattern)),
+    headers: {
+      ...(
+        Object.keys(request.headers).reduce((acc, header) => {
+          acc[header] = JSON.parse(request.headers[header] || {})
+          return acc
+        }, {})
+      )
+    }
+  }
+}
+
+export const dumpMapping = (mapping): Mapping => {
+  return {
+    ...mapping,
+    request: dumpRequest(mapping.request),
+    response: mapping.response,
   } as Mapping
 }

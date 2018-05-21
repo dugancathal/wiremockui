@@ -1,13 +1,15 @@
 <h1>{{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}</h1>
 
 <div class="options">
+  <button class="show-json buttonish" type="button" (click)="showJSON = !showJSON">
+    Show Raw JSON
+  </button>
 
-  <button class="show-json" type="button" (click)="showJSON = !showJSON">Show Raw JSON</button>
-
-  <button type="button" (click)="showRecordings = !showRecordings">
+  <button class="buttonish" type="button" (click)="showRecordings = !showRecordings">
     Request Count: <span class="request-count">{{requests.length}}</span>
   </button>
 
+  <a routerLink="/mappings/{{mapping.id}}/edit" class="buttonish">Edit</a>
 </div>
 
 <div class="show-the-codes">
