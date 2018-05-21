@@ -9,6 +9,8 @@ describe('MappingShowComponent', () => {
   const wiremockMock = {
     mapping: jasmine.createSpy('wiremockMock.mapping')
       .and.returnValue(of({name: 'Get Thor', request: {method: 'GET', url: '/aesir/thor'}, response: {}})),
+    requestsMatching: jasmine.createSpy('wiremockMock.requestsMatching')
+      .and.returnValue(of([{}, {}, {}, {}]))
   }
   const HostModule = createHost(MappingShowComponent, {}, {
     providers: [
@@ -34,5 +36,21 @@ describe('MappingShowComponent', () => {
     host.detectChanges()
 
     expect(host.nativeElement.querySelector('.raw-json')).toBeTruthy()
+  })
+
+  it('displays the requests made to this mapping', () => {
+    const host = TestBed.createComponent(HostModule.host)
+    host.detectChanges()
+
+    const requestCount = host.nativeElement.querySelector('.request-count')
+    expect(requestCount.innerText).toEqual('4')
+    expect(host.nativeElement.querySelector('.requests .recordings')).toBeFalsy()
+
+    requestCount.click()
+    host.detectChanges()
+
+    const recordings = host.nativeElement.querySelector('.requests .recordings')
+    expect(recordings).toBeTruthy()
+    expect(recordings.querySelectorAll('.recording').length).toEqual(4)
   })
 })

@@ -11,6 +11,10 @@ export interface Request {
   bodyPatterns: any[]
 }
 
+export interface RecordedRequest extends Request {
+  loggedDate: number
+}
+
 export interface Response {
   status: number
   body?: string
@@ -29,6 +33,10 @@ export interface Mapping {
 
 export interface MappingsResponse {
   mappings: Mapping[]
+}
+
+export interface RequestsResponse {
+  requests: RecordedRequest[]
 }
 
 export const EMPTY_MAPPING = Object.freeze({

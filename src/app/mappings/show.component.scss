@@ -1,5 +1,12 @@
 @import '../../styles/colors';
 
+.options  {
+  display: flex;
+  & > * {
+    flex: 1 1 auto;
+  }
+}
+
 .code {
   background-color: $medium-gray;
   padding: 0.5rem;

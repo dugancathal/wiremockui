@@ -1,8 +1,33 @@
 <h1>{{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}</h1>
-<button class="show-json" type="button" (click)="showJSON = !showJSON">Show Raw JSON</button>
-<pre class="code raw-json" *ngIf="showJSON">{{mapping | json}}</pre>
 
-<div>
+<div class="options">
+
+  <button class="show-json" type="button" (click)="showJSON = !showJSON">Show Raw JSON</button>
+
+  <button type="button" (click)="showRecordings = !showRecordings">
+    Request Count: <span class="request-count">{{requests.length}}</span>
+  </button>
+
+</div>
+
+<div class="show-the-codes">
+  <div class="definition">
+    <pre class="code raw-json" *ngIf="showJSON">{{mapping | json}}</pre>
+  </div>
+  <div class="requests">
+    <div class="recordings" *ngIf="showRecordings">
+      <ul>
+        <li class="recording" *ngFor="let recording of requests">
+          <p>{{recording.loggedDate | date:'full'}}</p>
+          <pre class="code">{{recording | json}}</pre>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="request-definition">
   <h3>Request</h3>
   <dl>
     <dt>Method</dt>
@@ -31,21 +56,22 @@
   </dl>
 </div>
 
+<div class="response-definition">
+  <h3>Response</h3>
+  <dl>
+    <dt>Status</dt>
+    <dd>{{mapping.response.status}}</dd>
 
-<h3>Response</h3>
-<dl>
-  <dt>Status</dt>
-  <dd>{{mapping.response.status}}</dd>
+    <dt>Body</dt>
+    <dd>{{mapping.response.body}}</dd>
 
-  <dt>Body</dt>
-  <dd>{{mapping.response.body}}</dd>
-
-  <dt>Headers</dt>
-  <dd>
-    <ul>
-      <li *ngFor="let header of keys(mapping.response.headers)">
-        {{header}}: {{mapping.response.headers[header] | json}}
-      </li>
-    </ul>
-  </dd>
-</dl>
+    <dt>Headers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let header of keys(mapping.response.headers)">
+          {{header}}: {{mapping.response.headers[header] | json}}
+        </li>
+      </ul>
+    </dd>
+  </dl>
+</div>
