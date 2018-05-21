@@ -6,17 +6,19 @@ const SUCCESS_FLASH_TIMEOUT = 2000
 @Component({
   selector: 'config',
   template: `
+    <h2>Local Config</h2>
     <form #form (submit)="save()">
       <div class="success flash" *ngIf="showSuccess">
         <p>Success!</p>
       </div>
       
       <div class="form-input">
-        <input type="text" name='url' [(ngModel)]="wiremockBaseUrl" [value]="wiremockBaseUrl">
+        <label for="url">Wiremock URL</label>
+        <input type="text" id="url" name='url' [(ngModel)]="wiremockBaseUrl" [value]="wiremockBaseUrl">
       </div>
       
       <div class="actions">
-        <button class="save" type="submit">Save</button>
+        <button class="save buttonish" type="submit">Save</button>
       </div>
     </form>
   `
