@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigComponent } from './config/config.component'
 import { TableComponent } from './lib/table/table.component'
+import { WindowWrapper } from './lib/window/window-wrapper'
 import { MappingEditComponent } from './mappings/edit.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
@@ -36,6 +37,7 @@ import { WiremockService } from './wiremock/wiremock.service'
   providers: [
     WiremockService,
     WiremockUrlService,
+    WindowWrapper,
   ],
   bootstrap: [AppComponent]
 })

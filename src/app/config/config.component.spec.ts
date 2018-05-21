@@ -1,15 +1,25 @@
 import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing'
 import { createHost } from '../lib/spec-utils/host.spec'
+import { WindowWrapper } from '../lib/window/window-wrapper'
 import { WiremockUrlService } from '../wiremock/wiremock-url.service'
 import { ConfigComponent } from './config.component'
 
 describe('ConfigComponent', () => {
   const HostModule = createHost(ConfigComponent, {}, {})
+  const fauxWindow = {
+    localStorage: {
+      getItem: jasmine.createSpy('localStorage.getItem'),
+      setItem: jasmine.createSpy('localStorage.setItem'),
+    }
+  }
 
   beforeEach(async(() => {
     return TestBed.configureTestingModule({
       imports: [HostModule],
-      providers: [WiremockUrlService]
+      providers: [
+        WiremockUrlService,
+        {provide: WindowWrapper, useValue: fauxWindow}
+      ]
     }).compileComponents()
   }))
 
