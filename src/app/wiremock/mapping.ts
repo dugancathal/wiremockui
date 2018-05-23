@@ -73,9 +73,10 @@ export const enrichRequest = (request) => {
 }
 
 export const enrichResponse = (response) => {
+  const body = response.body || response.base64Body || response.bodyFileName || JSON.stringify(response.jsonBody, null, "  ")
   return {
     ...response,
-    body: response.body || response.jsonBody || response.base64Body || response.bodyFileName
+    body
   }
 }
 
