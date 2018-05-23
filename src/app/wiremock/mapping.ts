@@ -72,8 +72,16 @@ export const enrichRequest = (request) => {
   }
 }
 
+function tryPrettyPrint(body: string) {
+  try {
+    return JSON.stringify(JSON.parse(body), null, "  ")
+  } catch(e) {
+    return body
+  }
+}
+
 export const enrichResponse = (response) => {
-  const body = response.body || response.base64Body || response.bodyFileName || JSON.stringify(response.jsonBody, null, "  ")
+  const body = tryPrettyPrint(response.body)
   return {
     ...response,
     body
