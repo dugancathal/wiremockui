@@ -26,8 +26,26 @@ export class MappingShowComponent implements OnInit {
       return this.wiremockService.mapping(this.mappingId)
     })).subscribe((mapping: Mapping) => {
       this.mapping = mapping
-      this.wiremockService.requestsMatching(this.mapping.request)
-        .subscribe(requests => this.requests = requests)
+      this.fetchRequests(mapping)
+      this.fetchBody(mapping)
     })
+  }
+
+  private fetchRequests(mapping: Mapping) {
+    this.wiremockService.requestsMatching(mapping.request)
+      .subscribe(requests => this.requests = requests)
+  }
+
+  private fetchBody(mapping: Mapping) {
+    if (mapping.response.bodyFileName) {
+      this.wiremockService.bodyFile(mapping.response.bodyFileName)
+        .subscribe(body => this.mapping = {
+          ...mapping,
+          response: {
+            ...mapping.response,
+            body
+          }
+        })
+    }
   }
 }

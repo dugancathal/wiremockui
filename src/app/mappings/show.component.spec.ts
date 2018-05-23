@@ -24,7 +24,8 @@ describe('MappingShowComponent', () => {
     requestsMatching: jasmine.createSpy('wiremockMock.requestsMatching')
       .and.returnValue(of([{}, {}, {}, {}])),
     reset: jasmine.createSpy('wiremockMock.reset')
-      .and.returnValue(of({}))
+      .and.returnValue(of({})),
+    bodyFile: jasmine.createSpy('wiremockMock.bodyFile')
   }
   const HostModule = createHost(MappingShowComponent, {}, {
     imports: [fakeRoutes(MappingShowComponent)],
@@ -70,5 +71,20 @@ describe('MappingShowComponent', () => {
     const recordings = host.nativeElement.querySelector('.requests .recordings')
     expect(recordings).toBeTruthy()
     expect(recordings.querySelectorAll('.recording').length).toEqual(4)
+  })
+
+  describe('when the response body is bodyFileName', () => {
+    it('retrieves the body from the server', () => {
+      wiremockMock.mapping.and
+        .returnValue(of({...MAPPING, response: {...MAPPING.response, bodyFileName: 'fileName'}}))
+      wiremockMock.bodyFile.and
+        .returnValue(of(`response body`))
+
+      const host = TestBed.createComponent(HostModule.host)
+      host.detectChanges()
+
+      expect(host.nativeElement.querySelector('.response-body').innerText).toEqual('response body')
+      expect(wiremockMock.bodyFile).toHaveBeenCalledWith('fileName')
+    })
   })
 })

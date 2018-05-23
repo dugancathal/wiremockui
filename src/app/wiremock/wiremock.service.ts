@@ -40,4 +40,9 @@ export class WiremockService {
   updateMapping(mappingId: string, updated: Mapping) {
     return this.http.put(`${this.baseUrl}/__admin/mappings/${mappingId}`, dumpMapping(updated))
   }
+
+  bodyFile(fileName: string) {
+    return this.http.get(`${this.baseUrl}/__files/${fileName}`)
+      .map((resp: string) => resp)
+  }
 }

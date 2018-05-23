@@ -1,0 +1,16 @@
+{
+  "id": "c56b0901-87be-4680-a1c6-4f4b14b7993c",
+  "uuid": "c56b0901-87be-4680-a1c6-4f4b14b7993c",
+  "name": "Get Odin",
+  "request": {
+    "method": "GET",
+    "url": "/aesir/odin"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "get-odin.json",
+    "headers": {
+      "Content-Type": "text/plain"
+    }
+  }
+}

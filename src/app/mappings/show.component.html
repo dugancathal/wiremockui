@@ -74,6 +74,11 @@
     </dd>
 
     <dt>Body</dt>
-    <dd><pre class="code">{{mapping.response.body}}</pre></dd>
+    <dd class="response-body">
+      <p *ngIf="mapping.response.bodyFileName">
+        Response stored in file: {{mapping.response.bodyFileName}}
+      </p>
+      <pre class="code">{{mapping.response.body}}</pre>
+    </dd>
   </dl>
 </div>
