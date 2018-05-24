@@ -1,16 +1,22 @@
 import { Component, OnInit } from '@angular/core'
-import { DomSanitizer } from '@angular/platform-browser'
-import { identity, stringable } from '../lib/table/formatter'
+import { identity } from '../lib/table/formatter'
 import { cell, Row } from '../lib/table/table'
 import { Mapping } from '../wiremock/mapping'
 import { WiremockService } from '../wiremock/wiremock.service'
 
 @Component({
   selector: 'mappings-list',
+  styleUrls: ['./mapping.component.scss'],
   template: `
+    <input
+      type="text"
+      class="mappings-filter"
+      (keyup)="onFilterChange($event.target.value)"
+      placeholder="Filter by name"/>
+
     <wiremockui-table
       [headers]="headers"
-      [rows]="mappings">
+      [rows]="filteredMappings">
     </wiremockui-table>
   `
 })
@@ -21,20 +27,24 @@ export class MappingsListComponent implements OnInit {
     cell('Path')
   ]
   mappings: Row[] = []
+  filteredMappings: Row[]
 
-  constructor(private api: WiremockService, private sanitizer: DomSanitizer) {
+  constructor(private api: WiremockService) {
   }
 
   ngOnInit() {
-    this.api.mappings().subscribe(mappings => this.mappings = this.toTable(mappings))
+    this.api.mappings().subscribe(mappings => {
+      this.mappings = this.toTable(mappings)
+      this.filteredMappings = this.mappings
+    })
+  }
+
+  onFilterChange(newFilter: string) {
+    const rowToString = (row) => row[0].value.toLowerCase()
+    this.filteredMappings = this.mappings.filter(row => rowToString(row).match(newFilter.toLowerCase()))
   }
 
   private toTable(mappings: Mapping[]): Row[] {
-    const nameToLink = (mapping): stringable => {
-      const linkTag = `<a href="/mappings/${mapping.id}">${mapping.name}</a>`
-      return this.sanitizer.bypassSecurityTrustHtml(linkTag) as stringable
-    }
-
     return mappings.map(mapping => {
       return [
         cell(mapping.name, identity, {href: `/mappings/${mapping.id}`}),

@@ -14,6 +14,12 @@ const MAPPINGS = [
     name: 'Get Thor',
     request: {method: 'GET', url: '/aesir/thor'},
     response: {}
+  },
+  {
+    id: 'imma-mapping-id-2',
+    name: 'Get Odin',
+    request: {method: 'GET', url: '/aesir/odin'},
+    response: {}
   }
 ]
 
@@ -44,5 +50,21 @@ describe('MappingListComponent', () => {
     host.detectChanges()
     const table = host.debugElement.query(By.css('wiremockui-table')).componentInstance
     expect(table.rows[0]).toEqual(rowWithValues('Get Thor', 'GET', '/aesir/thor'))
+  })
+
+  it('allows text-based filtering of the mappings', () => {
+    const host = TestBed.createComponent(HostModule.host)
+    host.detectChanges()
+
+    const table = host.debugElement.query(By.css('wiremockui-table')).componentInstance
+    expect(table.rows.length).toEqual(2)
+
+    const filter = host.nativeElement.querySelector('input.mappings-filter') as HTMLInputElement
+    filter.value = 'odin'
+    filter.dispatchEvent(new Event('keyup'))
+    host.detectChanges()
+
+    expect(table.rows.length).toEqual(1)
+    expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin'))
   })
 })
