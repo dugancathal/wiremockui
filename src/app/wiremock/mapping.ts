@@ -5,6 +5,7 @@ export interface HeaderMatcher {
 type HTTP_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export interface Request {
+  id?: string
   method: HTTP_METHOD
   url: string
   headers: { [key: string]: HeaderMatcher }

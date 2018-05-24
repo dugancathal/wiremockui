@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,6 +13,7 @@ import { WindowWrapper } from './lib/window/window-wrapper'
 import { MappingEditComponent } from './mappings/edit.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
+import { RequestsListComponent } from './requests/list.component'
 import { ROUTING_MODULE } from './routing.module'
 import { WiremockUrlService } from './wiremock/wiremock-url.service'
 import { WiremockService } from './wiremock/wiremock.service'
@@ -23,6 +25,7 @@ import { WiremockService } from './wiremock/wiremock.service'
     MappingsListComponent,
     MappingShowComponent,
     MappingEditComponent,
+    RequestsListComponent,
     TableComponent,
     ConfigComponent,
   ],
@@ -38,6 +41,7 @@ import { WiremockService } from './wiremock/wiremock.service'
     WiremockService,
     WiremockUrlService,
     WindowWrapper,
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

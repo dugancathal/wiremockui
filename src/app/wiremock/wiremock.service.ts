@@ -12,6 +12,7 @@ import {
   Request,
   RequestsResponse
 } from './mapping'
+import { Recording, RecordingsResponse } from './recording'
 import { WiremockUrlService } from './wiremock-url.service'
 
 @Injectable()
@@ -25,6 +26,11 @@ export class WiremockService {
   mappings(): Observable<Mapping[]> {
     return this.http.get(`${this.baseUrl}/__admin/mappings`)
       .map((resp: MappingsResponse) => resp.mappings.map(enrichMapping))
+  }
+
+  requests(): Observable<Recording[]> {
+    return this.http.get(`${this.baseUrl}/__admin/requests`)
+      .map((resp: RecordingsResponse) => resp.requests)
   }
 
   mapping(id: string): Observable<Mapping> {
