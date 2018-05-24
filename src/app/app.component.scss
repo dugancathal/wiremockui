@@ -1,0 +1,48 @@
+$header-padding: 0.5rem;
+$selected-link-color: lighten(lightgray, 10%);
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-bottom: 1rem;
+  padding: $header-padding;
+
+  background-color: lightgray;
+}
+
+.header > * {
+  flex: 1 1 auto;
+  position: relative;
+
+  padding: 0.5rem 0;
+
+  text-align: center;
+
+  &.current-link {
+    background-color: $selected-link-color;
+    padding: 1rem 0;
+    margin: -1rem 0;
+  }
+
+  &.current-link:after {
+    $triangle-height: 10px;
+
+    content: '';
+    position: absolute;
+    left: calc(50% - #{$triangle-height});
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-left: $triangle-height solid transparent;
+    border-right: $triangle-height solid transparent;
+    border-top: $triangle-height solid $selected-link-color;
+    clear: both
+  }
+}
+
+.content {
+  padding: 1rem;
+}

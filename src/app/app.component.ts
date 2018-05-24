@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { WiremockUrlService } from './wiremock/wiremock-url.service'
 
 @Component({
   selector: 'app-root',
   template: `
     <div class="header">
-      <a routerLink="/config">Local Config</a>
-      <a routerLink="/mappings">Mappings</a>
+      <a routerLink="/config" [class.current-link]="isCurrentRoute('/config')">Local Config</a>
+      <a routerLink="/mappings" [class.current-link]="isCurrentRoute('/')">Mappings</a>
 
       <div class="url">{{baseUrl}}</div>
     </div>
@@ -14,41 +15,19 @@ import { WiremockUrlService } from './wiremock/wiremock-url.service'
       <router-outlet></router-outlet>
     </div>
   `,
-  styles: [
-      `
-          .header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-
-              margin-bottom: 1rem;
-              padding: 0.5rem;
-
-              background-color: lightgray;
-          }
-
-          .header > * {
-              flex: 1 1 auto;
-
-              padding: 0.5rem 0;
-
-              text-align: center;
-          }
-
-          .content {
-              padding: 1rem;
-          }
-    `
-  ]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   baseUrl: string
 
-  constructor(private wiremockUrlService: WiremockUrlService) {
+  constructor(private wiremockUrlService: WiremockUrlService, private router: Router) {
   }
 
   ngOnInit() {
     this.wiremockUrlService.baseUrl().subscribe(url => this.baseUrl = url)
+  }
+
+  isCurrentRoute(path: string): boolean {
+    return this.router.url === path
   }
 }
