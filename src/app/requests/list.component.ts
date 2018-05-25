@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
+import { rowFilter } from '../lib/filtering/row-filter'
 import { identity } from '../lib/table/formatter'
 import { cell, Row } from '../lib/table/table'
 import { Recording } from '../wiremock/recording'
@@ -8,6 +9,12 @@ import { WiremockService } from '../wiremock/wiremock.service'
 @Component({
   selector: 'requests-list',
   template: `
+    <input
+      type="text"
+      class="mappings-filter"
+      (keyup)="onFilterChange($event.target.value)"
+      placeholder="Filter"/>
+
     <wiremockui-table
       [headers]="headers"
       [rows]="filteredRequests">
@@ -32,6 +39,11 @@ export class RequestsListComponent implements OnInit {
       this.requests = this.toTable(requests)
       this.filteredRequests = this.requests
     })
+  }
+
+  onFilterChange(newFilter: string) {
+    const rowStringer = (row) => JSON.stringify(row).toLowerCase()
+    this.filteredRequests = rowFilter(this.requests, rowStringer, newFilter.split(/\s+/))
   }
 
   private toTable(requests: Recording[]): Row[] {
