@@ -79,7 +79,7 @@ export class MappingEditComponent implements OnInit {
         'method': this.mapping.request.method,
         'url': this.mapping.request.url,
         'headers': this.fb.group(
-          Object.keys(this.mapping.request.headers)
+          this.keys(this.mapping.request.headers)
             .reduce((acc, header) => {
               acc[header] = this.mapping.request.headers[header]
               return acc
@@ -93,7 +93,7 @@ export class MappingEditComponent implements OnInit {
         'status': this.mapping.response.status,
         'body': this.mapping.response.body,
         'headers': this.fb.group(
-          Object.keys(this.mapping.response.headers)
+          this.keys(this.mapping.response.headers)
             .reduce((acc, header) => {
               acc[header] = this.mapping.response.headers[header]
               return acc
