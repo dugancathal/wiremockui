@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { rowFilter } from '../lib/filtering/row-filter'
 import { identity } from '../lib/table/formatter'
 import { cell, Row } from '../lib/table/table'
 import { Mapping } from '../wiremock/mapping'
@@ -40,8 +41,8 @@ export class MappingsListComponent implements OnInit {
   }
 
   onFilterChange(newFilter: string) {
-    const rowToString = (row) => row[0].value.toLowerCase()
-    this.filteredMappings = this.mappings.filter(row => rowToString(row).match(newFilter.toLowerCase()))
+    const rowToString = (row) => row[0].toLowerCase()
+    this.filteredMappings = rowFilter(this.mappings, rowToString, newFilter.split(/\s+/))
   }
 
   private toTable(mappings: Mapping[]): Row[] {
