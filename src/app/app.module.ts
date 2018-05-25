@@ -13,7 +13,8 @@ import { WindowWrapper } from './lib/window/window-wrapper'
 import { MappingEditComponent } from './mappings/edit.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
-import { RequestsListComponent } from './requests/list.component'
+import { RequestsListComponent } from './recordings/list.component'
+import { RequestsShowComponent } from './recordings/show.component'
 import { ROUTING_MODULE } from './routing.module'
 import { WiremockUrlService } from './wiremock/wiremock-url.service'
 import { WiremockService } from './wiremock/wiremock.service'
@@ -26,6 +27,7 @@ import { WiremockService } from './wiremock/wiremock.service'
     MappingShowComponent,
     MappingEditComponent,
     RequestsListComponent,
+    RequestsShowComponent,
     TableComponent,
     ConfigComponent,
   ],

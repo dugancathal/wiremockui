@@ -59,7 +59,7 @@ describe('MappingListComponent', () => {
     const table = host.debugElement.query(By.css('wiremockui-table')).componentInstance
     expect(table.rows.length).toEqual(2)
 
-    const filter = host.nativeElement.querySelector('input.mappings-filter') as HTMLInputElement
+    const filter = host.nativeElement.querySelector('input.filter-input') as HTMLInputElement
     filter.value = 'odin'
     filter.dispatchEvent(new Event('keyup'))
     host.detectChanges()

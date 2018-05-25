@@ -3,7 +3,8 @@ import { ConfigComponent } from './config/config.component'
 import { MappingEditComponent } from './mappings/edit.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
-import { RequestsListComponent } from './requests/list.component'
+import { RequestsListComponent } from './recordings/list.component'
+import { RequestsShowComponent } from './recordings/show.component'
 
 export const appRoutes: Routes = [
   {
@@ -23,8 +24,12 @@ export const appRoutes: Routes = [
     component: MappingEditComponent
   },
   {
-    path: 'requests',
+    path: 'recordings',
     component: RequestsListComponent,
+  },
+  {
+    path: 'recordings/:id',
+    component: RequestsShowComponent,
   },
   {
     path: 'config',

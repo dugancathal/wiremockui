@@ -32,3 +32,25 @@ body {
     box-shadow: none;
   }
 }
+
+.buttonish-disabled {
+  box-shadow: none;
+}
+
+.danger {
+  background-color: #c33030;
+  color: white;
+}
+
+.success {
+  background-color: #30c330;
+}
+
+
+.filter-input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+  font-size: 1rem;
+  padding: 0.25rem;
+}

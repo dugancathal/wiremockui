@@ -11,7 +11,7 @@ import { WiremockService } from '../wiremock/wiremock.service'
   template: `
     <input
       type="text"
-      class="mappings-filter"
+      class="filter-input"
       (keyup)="onFilterChange($event.target.value)"
       placeholder="Filter"/>
 
@@ -35,7 +35,7 @@ export class RequestsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.requests().subscribe(requests => {
+    this.api.recordings().subscribe(requests => {
       this.requests = this.toTable(requests)
       this.filteredRequests = this.requests
     })
@@ -49,7 +49,7 @@ export class RequestsListComponent implements OnInit {
   private toTable(requests: Recording[]): Row[] {
     return requests.map(recording => {
       return [
-        cell(recording.id, identity),
+        cell(recording.id, identity, {href: `/recordings/${recording.id}`}),
         cell(recording.request.method),
         cell(recording.request.url),
         cell(recording.request.loggedDate, (time) => this.dateFormatter.transform(time, 'full')),

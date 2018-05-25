@@ -1,8 +1,8 @@
+import { HTTP_METHOD } from './http-methods'
+
 export interface HeaderMatcher {
   equalTo?: string
 }
-
-type HTTP_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export interface Request {
   id?: string

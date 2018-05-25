@@ -10,7 +10,7 @@ import { WiremockService } from '../wiremock/wiremock.service'
   template: `
     <input
       type="text"
-      class="mappings-filter"
+      class="filter-input"
       (keyup)="onFilterChange($event.target.value)"
       placeholder="Filter by name"/>
 

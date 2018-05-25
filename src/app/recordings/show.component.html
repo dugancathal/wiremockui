@@ -1,0 +1,66 @@
+<h1>{{recording.request.method}} {{recording.request.url}} -- {{recording.request.loggedDate}}</h1>
+
+<div class="options">
+  <button class="show-json buttonish" type="button" (click)="showJSON = !showJSON">
+    Show Raw JSON
+  </button>
+
+  <p [class.danger]="!recording.wasMatched" [class.success]="recording.wasMatched" class="buttonish buttonish-disabled">
+    {{recording.wasMatched ? 'Was Matched' : 'Was NOT Matched'}}
+  </p>
+</div>
+
+<div class="show-the-codes">
+  <div class="definition">
+    <pre class="code raw-json" *ngIf="showJSON">{{recording | json}}</pre>
+  </div>
+</div>
+
+<div class="request-definition">
+  <h3>Request</h3>
+  <dl>
+    <dt>Method</dt>
+    <dd>{{recording.request.method}}</dd>
+
+    <dt>URL</dt>
+    <dd>{{recording.request.url}}</dd>
+
+    <dt>Headers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let header of keys(recording.request.headers)">
+          {{header}}: {{recording.request.headers[header] | json}}
+        </li>
+      </ul>
+    </dd>
+
+    <dt>Body Matchers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let matcher of (recording.request.bodyPatterns || [])">
+          {{matcher | json}}
+        </li>
+      </ul>
+    </dd>
+  </dl>
+</div>
+
+<div class="response-definition">
+  <h3>Response</h3>
+  <dl>
+    <dt>Status</dt>
+    <dd>{{recording.response.status}}</dd>
+
+    <dt>Headers</dt>
+    <dd>
+      <ul>
+        <li *ngFor="let header of keys(recording.response.headers)">
+          {{header}}: {{recording.response.headers[header] | json}}
+        </li>
+      </ul>
+    </dd>
+
+    <dt>Body</dt>
+    <dd><pre class="code">{{recording.response.body}}</pre></dd>
+  </dl>
+</div>
