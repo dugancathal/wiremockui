@@ -6,11 +6,11 @@ import { WiremockUrlService } from './wiremock/wiremock-url.service'
   selector: 'app-root',
   template: `
     <div class="header">
+      <div class="url">Current Wiremock: {{baseUrl}}</div>
+
       <a routerLink="/config" [class.current-link]="isCurrentRoute('/config')">Local Config</a>
       <a routerLink="/recordings" [class.current-link]="isCurrentRoute('/recordings')">Requests</a>
       <a routerLink="/mappings" [class.current-link]="isCurrentRoute('/')">Mappings</a>
-
-      <div class="url">{{baseUrl}}</div>
     </div>
     <div class="content">
       <router-outlet></router-outlet>
