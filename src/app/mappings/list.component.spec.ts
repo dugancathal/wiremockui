@@ -1,8 +1,7 @@
-import { Directive } from '@angular/core'
 import { async, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { of } from 'rxjs/observable/of'
-import { fakeRoutes, FauxRouterLink } from '../lib/spec-utils/faux-router-link.spec'
+import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
 import { TableComponent } from '../lib/table/table.component'
 import { WiremockService } from '../wiremock/wiremock.service'
@@ -27,6 +26,8 @@ describe('MappingListComponent', () => {
   const wiremockMock = {
     mappings: jasmine.createSpy('wiremockMock.mappings')
       .and.returnValue(of(MAPPINGS)),
+    resetMappings: jasmine.createSpy('wiremockMock.resetMappings')
+      .and.returnValue(of({}))
   }
   const HostModule = createHost(MappingsListComponent, {}, {
     declarations: [TableComponent],
@@ -66,5 +67,15 @@ describe('MappingListComponent', () => {
 
     expect(table.rows.length).toEqual(1)
     expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin'))
+  })
+
+  it('allows resetting mappings', () => {
+    const host = TestBed.createComponent(HostModule.host)
+    host.detectChanges()
+
+    host.nativeElement.querySelector('.reset-mappings').click()
+    host.detectChanges()
+
+    expect(wiremockMock.resetMappings).toHaveBeenCalled()
   })
 })

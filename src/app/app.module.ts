@@ -1,19 +1,16 @@
 import { DatePipe } from '@angular/common'
+import { HttpClientModule } from '@angular/common/http'
+import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component'
 import { ConfigComponent } from './config/config.component'
 import { TableComponent } from './lib/table/table.component'
 import { WindowWrapper } from './lib/window/window-wrapper'
-import { MappingEditComponent } from './mappings/edit.component'
-import { MappingFormComponent } from './mappings/form.component'
-import { MappingsListComponent } from './mappings/list.component'
-import { MappingShowComponent } from './mappings/show.component'
+import { MAPPINGS_COMPONENTS } from './mappings'
 import { RequestsListComponent } from './recordings/list.component'
 import { RequestsShowComponent } from './recordings/show.component'
 import { ROUTING_MODULE } from './routing.module'
@@ -24,10 +21,7 @@ import { WiremockService } from './wiremock/wiremock.service'
 @NgModule({
   declarations: [
     AppComponent,
-    MappingsListComponent,
-    MappingShowComponent,
-    MappingEditComponent,
-    MappingFormComponent,
+    ...MAPPINGS_COMPONENTS,
     RequestsListComponent,
     RequestsShowComponent,
     TableComponent,

@@ -28,6 +28,11 @@ export class WiremockService {
       .map((resp: MappingsResponse) => resp.mappings.map(enrichMapping))
   }
 
+  createMapping(mapping: Mapping): Observable<Mapping> {
+    return this.http.post(`${this.baseUrl}/__admin/mappings`, mapping)
+      .map((resp: Mapping) => resp)
+  }
+
   mapping(id: string): Observable<Mapping> {
     return this.http.get(`${this.baseUrl}/__admin/mappings/${id}`)
       .map((resp: Mapping) => enrichMapping(resp))
@@ -50,5 +55,9 @@ export class WiremockService {
   recording(id: string): Observable<Recording> {
     return this.http.get(`${this.baseUrl}/__admin/requests/${id}`)
       .map((resp: Recording) => resp)
+  }
+
+  resetMappings() {
+    return this.http.post(`${this.baseUrl}/__admin/mappings/reset`, {})
   }
 }

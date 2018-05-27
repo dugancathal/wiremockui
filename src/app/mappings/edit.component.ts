@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, ParamMap } from '@angular/router'
+import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { switchMap } from 'rxjs/operators'
 import { EMPTY_MAPPING, Mapping } from '../wiremock/mapping'
 import { WiremockService } from '../wiremock/wiremock.service'
@@ -14,7 +14,7 @@ export class MappingEditComponent implements OnInit {
   mapping: Mapping = EMPTY_MAPPING
   private mappingId: string
 
-  constructor(private route: ActivatedRoute, private wiremockService: WiremockService) {
+  constructor(private route: ActivatedRoute, private wiremockService: WiremockService, private router: Router) {
   }
 
   ngOnInit() {
@@ -29,10 +29,7 @@ export class MappingEditComponent implements OnInit {
   save(mapping: Mapping) {
     this.wiremockService.updateMapping(this.mappingId, mapping)
       .subscribe(
-        (_) => {
-          alert('Success')
-          this.mapping = mapping
-        },
+        () => this.router.navigate([`/mappings/${this.mappingId}`]),
         (res) => alert('Failure.' + JSON.stringify(res)),
       )
   }

@@ -1,6 +1,6 @@
 <form [formGroup]="form" (submit)="save()">
   <label for="mapping-name">Name</label>
-  <input type="text" id="mapping-name" formControlName="name">
+  <input type="text" id="mapping-name" name="mapping-name" formControlName="name">
   <div class="request-definition" formGroupName="request">
     <h3>Request</h3>
     <dl>

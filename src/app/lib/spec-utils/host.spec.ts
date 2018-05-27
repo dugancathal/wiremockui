@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
 
 export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
@@ -48,7 +48,7 @@ export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
   @NgModule({
     declarations: [Host, childComp, TestAnchor, ...(moduleMerge.declarations || [])],
     providers: [...(moduleMerge.providers || [])],
-    imports: [CommonModule, BrowserModule, FormsModule, ...(moduleMerge.imports || [])],
+    imports: [CommonModule, BrowserModule, FormsModule, ReactiveFormsModule, ...(moduleMerge.imports || [])],
     entryComponents: [Host, childComp, ...(moduleMerge.entryComponents || [])]
   })
   class TestModule {

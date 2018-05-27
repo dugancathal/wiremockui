@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router'
 import { ConfigComponent } from './config/config.component'
+import { MappingNewComponent } from './mappings'
 import { MappingEditComponent } from './mappings/edit.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
@@ -14,6 +15,10 @@ export const appRoutes: Routes = [
   {
     path: 'mappings',
     redirectTo: '',
+  },
+  {
+    path: 'mappings/new',
+    component: MappingNewComponent
   },
   {
     path: 'mappings/:id',

@@ -50,7 +50,7 @@ export const EMPTY_MAPPING = Object.freeze({
     bodyPatterns: [],
   },
   response: {
-    status: 0,
+    status: 200,
     jsonBody: {},
     headers: {},
   }
