@@ -11,6 +11,7 @@ import { ConfigComponent } from './config/config.component'
 import { TableComponent } from './lib/table/table.component'
 import { WindowWrapper } from './lib/window/window-wrapper'
 import { MappingEditComponent } from './mappings/edit.component'
+import { MappingFormComponent } from './mappings/form.component'
 import { MappingsListComponent } from './mappings/list.component'
 import { MappingShowComponent } from './mappings/show.component'
 import { RequestsListComponent } from './recordings/list.component'
@@ -26,6 +27,7 @@ import { WiremockService } from './wiremock/wiremock.service'
     MappingsListComponent,
     MappingShowComponent,
     MappingEditComponent,
+    MappingFormComponent,
     RequestsListComponent,
     RequestsShowComponent,
     TableComponent,
