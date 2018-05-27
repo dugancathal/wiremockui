@@ -4,6 +4,7 @@ import { of } from 'rxjs/observable/of'
 import * as url from 'url'
 import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
+import { page } from '../lib/spec-utils/page'
 import { WiremockService } from '../wiremock/wiremock.service'
 import { MappingShowComponent } from './show.component'
 
@@ -44,31 +45,29 @@ describe('MappingShowComponent', () => {
   }))
 
   it('shows the mappings and their NAME', () => {
-    const host = TestBed.createComponent(HostModule.host)
+    const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
-    expect(host.nativeElement.querySelector('.raw-json')).toBeFalsy()
+    expect(host.$('.raw-json')).toBeFalsy()
 
-    const showJson = host.nativeElement.querySelector('.show-json')
-    showJson.click()
-    host.detectChanges()
+    host.clickOn('.show-json')
 
-    expect(host.nativeElement.querySelector('.raw-json')).toBeTruthy()
+    expect(host.$('.raw-json')).toBeTruthy()
   })
 
   it('displays the requests made to this mapping', () => {
-    const host = TestBed.createComponent(HostModule.host)
+    const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
-    const requestCount = host.nativeElement.querySelector('.request-count')
+    const requestCount = host.$('.request-count')
     expect(requestCount.innerText).toEqual('4')
-    expect(host.nativeElement.querySelector('.requests .recordings')).toBeFalsy()
+    expect(host.$('.requests .recordings')).toBeFalsy()
 
     requestCount.click()
     host.detectChanges()
 
-    const recordings = host.nativeElement.querySelector('.requests .recordings')
+    const recordings = host.$('.requests .recordings')
     expect(recordings).toBeTruthy()
-    expect(recordings.querySelectorAll('.recording').length).toEqual(4)
+    expect(host.$$('.requests .recordings .recording').length).toEqual(4)
   })
 })

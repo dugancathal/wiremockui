@@ -1,8 +1,8 @@
 import { async, TestBed } from '@angular/core/testing'
-import { By } from '@angular/platform-browser'
 import { of } from 'rxjs/observable/of'
 import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
+import { page } from '../lib/spec-utils/page'
 import { TableComponent } from '../lib/table/table.component'
 import { WiremockService } from '../wiremock/wiremock.service'
 import { MappingsListComponent } from './list.component'
@@ -47,34 +47,30 @@ describe('MappingListComponent', () => {
   }))
 
   it('shows the mappings and their NAME', () => {
-    const host = TestBed.createComponent(HostModule.host)
+    const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
-    const table = host.debugElement.query(By.css('wiremockui-table')).componentInstance
+    const table = host.$ng('wiremockui-table').componentInstance
     expect(table.rows[0]).toEqual(rowWithValues('Get Thor', 'GET', '/aesir/thor'))
   })
 
   it('allows text-based filtering of the mappings', () => {
-    const host = TestBed.createComponent(HostModule.host)
+    const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
-    const table = host.debugElement.query(By.css('wiremockui-table')).componentInstance
+    const table = host.$ng('wiremockui-table').componentInstance
     expect(table.rows.length).toEqual(2)
 
-    const filter = host.nativeElement.querySelector('input.filter-input') as HTMLInputElement
-    filter.value = 'odin'
-    filter.dispatchEvent(new Event('keyup'))
-    host.detectChanges()
+    host.fillIn('.filter-input', 'odin')
 
     expect(table.rows.length).toEqual(1)
     expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin'))
   })
 
   it('allows resetting mappings', () => {
-    const host = TestBed.createComponent(HostModule.host)
+    const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
-    host.nativeElement.querySelector('.reset-mappings').click()
-    host.detectChanges()
+    host.clickOn('.reset-mappings')
 
     expect(wiremockMock.resetMappings).toHaveBeenCalled()
   })
