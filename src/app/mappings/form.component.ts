@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
+import { HttpMethods } from '../lib/http/http-methods'
+import { collectErrors } from '../lib/validators/collect-errors'
+import { oneOf } from '../lib/validators/one-of'
 import { EMPTY_MAPPING, Mapping } from '../wiremock/mapping'
 
 @Component({
@@ -23,6 +26,10 @@ export class MappingFormComponent implements OnChanges {
   }
 
   save() {
+    if(!this.form.valid) {
+      alert(JSON.stringify(collectErrors(this.form)))
+      return
+    }
     this.onSave.emit(this.form.value)
   }
 
@@ -66,8 +73,8 @@ export class MappingFormComponent implements OnChanges {
     return this.fb.group({
       'name': this.mapping.name,
       'request': this.fb.group({
-        'method': this.mapping.request.method,
-        'url': this.mapping.request.url,
+        'method': this.fb.control(this.mapping.request.method, [Validators.required, oneOf(HttpMethods)]),
+        'url': this.fb.control(this.mapping.request.url, [Validators.required]),
         'headers': this.fb.group(
           this.keys(this.mapping.request.headers)
             .reduce((acc, header) => {
@@ -80,7 +87,7 @@ export class MappingFormComponent implements OnChanges {
         ),
       }),
       'response': this.fb.group({
-        'status': this.mapping.response.status,
+        'status': this.fb.control(this.mapping.response.status, [Validators.required, Validators.min(0)]),
         'body': this.mapping.response.body,
         'headers': this.fb.group(
           this.keys(this.mapping.response.headers)

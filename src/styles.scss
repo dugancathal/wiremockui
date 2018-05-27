@@ -37,13 +37,15 @@ body {
   box-shadow: none;
 }
 
+$danger-red: #c33030;
+$success-green: #30c330;
 .danger {
-  background-color: #c33030;
+  background-color: $danger-red;
   color: white;
 }
 
 .success {
-  background-color: #30c330;
+  background-color: $success-green;
 }
 
 
@@ -53,4 +55,12 @@ body {
   border-bottom: 1px solid gray;
   font-size: 1rem;
   padding: 0.25rem;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-bottom: 5px solid $success-green;
+}
+
+.ng-invalid.ng-touched:not(form):not([formgroupname])  {
+  border-bottom: 5px solid $danger-red;
 }
