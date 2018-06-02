@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Observable } from 'rxjs/Observable'
+import { of } from 'rxjs/observable/of'
+import { catchError } from 'rxjs/operators'
 import { WindowWrapper } from '../lib/window/window-wrapper'
 
 const BASE_URL_KEY = 'WIREMOCKUI:base-url'
@@ -28,5 +30,6 @@ export class WiremockUrlService {
   verifyUrl(newUrl: string): Observable<boolean> {
     return this.http.get(`${newUrl}/__admin/mappings`)
       .map(() => true)
+      .pipe(catchError(() => of(false)))
   }
 }

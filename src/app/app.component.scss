@@ -8,7 +8,7 @@ $selected-link-color: lighten(lightgray, 10%);
   flex-wrap: wrap;
 
   margin-bottom: 1rem;
-  padding: $header-padding;
+  padding: $header-padding 0;
 
   background-color: lightgray;
 }
@@ -20,6 +20,11 @@ $selected-link-color: lighten(lightgray, 10%);
   padding: 0.5rem 0;
 
   text-align: center;
+
+  &.status {
+    padding: 1rem 0;
+    margin: -1rem 0;
+  }
 
   &.current-link {
     background-color: $selected-link-color;
