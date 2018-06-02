@@ -15,8 +15,9 @@ describe('Row filtering', () => {
     expect(rowFilter(rows, (row) => JSON.stringify(row), [/hi/i])).toEqual([rows[0]])
   })
 
-  it('matches rows that match ANY of the search criteria', () => {
-    expect(rowFilter(rows, (row) => JSON.stringify(row), ['Hi', /bye/i])).toEqual([rows[0], rows[1]])
+  it('matches rows that match ALL of the search criteria', () => {
+    expect(rowFilter(rows, (row) => JSON.stringify(row), ['Hi', /bye/i])).toEqual([])
+    expect(rowFilter(rows, (row) => JSON.stringify(row), ['Hi', /m/i])).toEqual([rows[0]])
   })
 
   it('matches on the formatted values of the cells', () => {
