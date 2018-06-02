@@ -12,3 +12,13 @@ table.table {
     background-color: $light-gray;
   }
 }
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .current-page {
+    box-shadow: none;
+  }
+}

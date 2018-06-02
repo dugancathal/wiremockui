@@ -5,7 +5,7 @@ import {
   ComponentRef,
   Directive,
   NgModule,
-  OnInit,
+  OnInit, SimpleChange, SimpleChanges,
   ViewChild,
   ViewContainerRef
 } from '@angular/core'
@@ -34,13 +34,16 @@ export const createHost = (childComp, props, moduleMerge: NgModule = {}) => {
     ngOnInit() {
       const factory = this.compFactory.resolveComponentFactory(childComp)
       this.compRef = this.anchor.viewRef.createComponent(factory)
-      this.setProps(props)
+      this.setProps(props, true)
     }
 
-    setProps(newProps) {
+    setProps(newProps, initialChange = false) {
+      const changes = {} as SimpleChanges
       Object.keys(newProps).forEach(prop => {
         this.compRef.instance[prop] = newProps[prop]
+        changes[prop] = new SimpleChange(this.compRef.instance[prop], newProps[prop], initialChange)
       })
+      this.compRef.instance.ngOnChanges && this.compRef.instance.ngOnChanges(changes)
       this.compRef.changeDetectorRef.detectChanges()
     }
   }
