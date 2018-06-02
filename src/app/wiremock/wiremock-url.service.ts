@@ -28,7 +28,7 @@ export class WiremockUrlService {
   }
 
   verifyUrl(newUrl: string): Observable<boolean> {
-    return this.http.get(`${newUrl}/__admin/mappings`)
+    return this.http.get(`${newUrl}/__admin/mappings?limit=1`)
       .map(() => true)
       .pipe(catchError(() => of(false)))
   }
