@@ -6,6 +6,7 @@ import {
   dumpRequest,
   enrichMapping,
   enrichRequest,
+  enrichResponse,
   Mapping,
   MappingsResponse,
   RecordedRequest,
@@ -49,12 +50,20 @@ export class WiremockService {
 
   recordings(): Observable<Recording[]> {
     return this.http.get(`${this.baseUrl}/__admin/requests`)
-      .map((resp: RecordingsResponse) => resp.requests)
+      .map((resp: RecordingsResponse) => resp.requests.map(recording => ({
+        ...recording,
+        request: enrichRequest(recording.request),
+        response: enrichResponse(recording.response)
+      })))
   }
 
   recording(id: string): Observable<Recording> {
     return this.http.get(`${this.baseUrl}/__admin/requests/${id}`)
-      .map((resp: Recording) => resp)
+      .map((resp: Recording) => ({
+        ...resp,
+        request: enrichRequest(resp.request),
+        response: enrichResponse(resp.response)
+      }))
   }
 
   resetMappings() {

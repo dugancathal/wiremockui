@@ -14,6 +14,7 @@ export interface Request {
 
 export interface RecordedRequest extends Request {
   loggedDate: number
+  body: string
 }
 
 export interface Response {
@@ -56,12 +57,21 @@ export const EMPTY_MAPPING = Object.freeze({
   }
 })
 
+function tryPrettyPrint(body: string) {
+  try {
+    return JSON.stringify(JSON.parse(body), null, "  ")
+  } catch(e) {
+    return body
+  }
+}
+
 export const enrichRequest = (request) => {
   const headers = request.headers || {}
   const bodyPatterns = request.bodyPatterns || []
   return {
     ...request,
     bodyPatterns: bodyPatterns.map(pattern => JSON.stringify(pattern)),
+    body: tryPrettyPrint(request.body),
     headers: {
       ...(
         Object.keys(headers).reduce((acc, header) => {
@@ -70,14 +80,6 @@ export const enrichRequest = (request) => {
         }, {})
       )
     },
-  }
-}
-
-function tryPrettyPrint(body: string) {
-  try {
-    return JSON.stringify(JSON.parse(body), null, "  ")
-  } catch(e) {
-    return body
   }
 }
 

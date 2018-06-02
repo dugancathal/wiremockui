@@ -34,13 +34,9 @@
       </ul>
     </dd>
 
-    <dt>Body Matchers</dt>
+    <dt>Body</dt>
     <dd>
-      <ul>
-        <li *ngFor="let matcher of (recording.request.bodyPatterns || [])">
-          {{matcher | json}}
-        </li>
-      </ul>
+      <pre class="code">{{recording.request.body}}</pre>
     </dd>
   </dl>
 </div>
