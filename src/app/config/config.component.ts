@@ -11,6 +11,9 @@ const SUCCESS_FLASH_TIMEOUT = 2000
       <div class="success flash" *ngIf="showSuccess">
         <p>Success!</p>
       </div>
+      <div class="danger flash" *ngIf="showFailure">
+        <p>Invalid url!</p>
+      </div>
       
       <div class="form-input">
         <label for="url">Wiremock URL</label>
@@ -26,6 +29,7 @@ const SUCCESS_FLASH_TIMEOUT = 2000
 export class ConfigComponent implements OnInit {
   wiremockBaseUrl: string = ''
   showSuccess: boolean = false
+  showFailure: boolean = false
 
   constructor(private wiremockUrlService: WiremockUrlService) {
   }
@@ -35,10 +39,23 @@ export class ConfigComponent implements OnInit {
   }
 
   save() {
+    this.wiremockUrlService.verifyUrl(this.wiremockBaseUrl)
+      .subscribe(this.onSuccess, this.onInvalidUrl)
+
+  }
+
+  onSuccess = () => {
     this.wiremockUrlService.updateBaseUrl(this.wiremockBaseUrl)
     this.showSuccess = true
     setTimeout(() => {
       this.showSuccess = false
+    }, SUCCESS_FLASH_TIMEOUT)
+  }
+
+  onInvalidUrl = () => {
+    this.showFailure = true
+    setTimeout(() => {
+      this.showFailure = false
     }, SUCCESS_FLASH_TIMEOUT)
   }
 }

@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing'
+import { Observable } from 'rxjs'
+import { of } from 'rxjs/observable/of'
 import { createHost } from '../lib/spec-utils/host.spec'
 import { page } from '../lib/spec-utils/page'
 import { WindowWrapper } from '../lib/window/window-wrapper'
@@ -16,7 +19,7 @@ describe('ConfigComponent', () => {
 
   beforeEach(async(() => {
     return TestBed.configureTestingModule({
-      imports: [HostModule],
+      imports: [HostModule, HttpClientTestingModule],
       providers: [
         WiremockUrlService,
         {provide: WindowWrapper, useValue: fauxWindow}
@@ -34,6 +37,7 @@ describe('ConfigComponent', () => {
   })
 
   it('updates the wiremockUrlService baseUrl on save', inject([WiremockUrlService], (urlService: WiremockUrlService) => {
+    spyOn(urlService, 'verifyUrl').and.returnValue(of(true))
     const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
@@ -44,7 +48,8 @@ describe('ConfigComponent', () => {
     urlService.baseUrl().subscribe(url => expect(url).toEqual('http://new-url.com'))
   }))
 
-  it('displays a FLASH when saved and hides it after 2 seconds', fakeAsync(() => {
+  it('displays a FLASH on successful save and hides it after 2 seconds', fakeAsync(inject([WiremockUrlService], (urlService: WiremockUrlService) => {
+    spyOn(urlService, 'verifyUrl').and.returnValue(of(true))
     const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
@@ -60,5 +65,19 @@ describe('ConfigComponent', () => {
     tick(2)
     host.detectChanges()
     expect(host.$('.success.flash')).toBeFalsy()
+  })))
+
+  it('verifies the URL works on save', inject([WiremockUrlService], (urlService: WiremockUrlService) => {
+    spyOn(urlService, 'verifyUrl').and.returnValue(Observable.throw(new Error('invalid url')))
+    spyOn(urlService, 'updateBaseUrl').and.callThrough()
+
+    const host = page(TestBed.createComponent(HostModule.host))
+    host.detectChanges()
+
+    host.component.compRef.instance.wiremockBaseUrl = 'http://new-url.com'
+    host.detectChanges()
+
+    host.$('.save').click()
+    expect(urlService.updateBaseUrl).not.toHaveBeenCalled()
   }))
 })
