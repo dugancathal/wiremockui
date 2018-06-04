@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router'
 import { rowFilter } from '../lib/filtering/row-filter'
 import { identity } from '../lib/table/formatter'
 import { cell, Row } from '../lib/table/table'
@@ -14,11 +14,12 @@ import { WiremockService } from '../wiremock/wiremock.service'
       <a class="buttonish" routerLink="/mappings/new">New Mapping</a>
       <button class="buttonish danger reset-mappings" (click)="resetMappings()">Reset mappings</button>
     </div>
-    
+
     <input
       type="text"
       class="filter-input"
-      (keyup)="onFilterChange($event.target.value)"
+      (debouncedKeyup)="onFilterChange($event.target.value)"
+      [value]="filter"
       placeholder="Filter by name"/>
 
     <wiremockui-table
@@ -35,29 +36,39 @@ export class MappingsListComponent implements OnInit {
   ]
   mappings: Row[] = []
   filteredMappings: Row[]
+  filter: string = ''
 
-  constructor(private api: WiremockService, private router: Router) {
+  constructor(private api: WiremockService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.loadMappings()
-  }
-
-  private loadMappings() {
-    this.api.mappings().subscribe(mappings => {
-      this.mappings = this.toTable(mappings)
-      this.filteredMappings = this.mappings
+    this.route.queryParams.subscribe(params => {
+      this.filter = params['filter'] || ''
+      this.loadMappings()
     })
   }
 
   onFilterChange(newFilter: string) {
-    const rowToString = (row) => row[0].toLowerCase()
-    this.filteredMappings = rowFilter(this.mappings, rowToString, newFilter.split(/\s+/))
+    this.filter = newFilter
+    this.router.navigate([], withParams({filter: newFilter}))
+    this.filterRows(newFilter)
   }
 
   resetMappings() {
     this.api.resetMappings()
       .subscribe(() => this.loadMappings())
+  }
+
+  private loadMappings() {
+    return this.api.mappings().subscribe(mappings => {
+      this.mappings = this.toTable(mappings)
+      this.onFilterChange(this.filter)
+    })
+  }
+
+  private filterRows = (newFilter: string) => {
+    const rowToString = (row) => row[0].toLowerCase()
+    this.filteredMappings = rowFilter(this.mappings, rowToString, newFilter.toLowerCase().split(/\s+/))
   }
 
   private toTable(mappings: Mapping[]): Row[] {
@@ -70,3 +81,9 @@ export class MappingsListComponent implements OnInit {
     })
   }
 }
+
+const withParams = (newParams) => ({
+  queryParams: newParams,
+  queryParamsHandling: 'merge',
+  replaceUrl: true
+} as NavigationExtras)

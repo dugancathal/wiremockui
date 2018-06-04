@@ -1,4 +1,4 @@
-import { ComponentFixture } from '@angular/core/testing'
+import { ComponentFixture, tick } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 
 export const page = (host: ComponentFixture<any>) => {
@@ -20,5 +20,9 @@ export const page = (host: ComponentFixture<any>) => {
       host.nativeElement.querySelector(selector).click()
       host.detectChanges()
     },
+    tick: (time: number) => {
+      tick(time)
+      host.detectChanges()
+    }
   }
 }

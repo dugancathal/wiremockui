@@ -1,5 +1,8 @@
-import { async, TestBed } from '@angular/core/testing'
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing'
+import { ActivatedRoute, Router } from '@angular/router'
+import { current } from 'codelyzer/util/syntaxKind'
 import { of } from 'rxjs/observable/of'
+import { DebounceKeyupDirective } from '../lib/debounce/debounce.directive'
 import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
 import { page } from '../lib/spec-utils/page'
@@ -23,6 +26,9 @@ const MAPPINGS = [
 ]
 
 describe('MappingListComponent', () => {
+  let currentRoute: ActivatedRoute = {queryParams: of({})} as ActivatedRoute
+  const cellWithValue = (value) => jasmine.objectContaining({value})
+  const rowWithValues = (...values) => values.map(cellWithValue)
   const wiremockMock = {
     mappings: jasmine.createSpy('wiremockMock.mappings')
       .and.returnValue(of(MAPPINGS)),
@@ -30,17 +36,16 @@ describe('MappingListComponent', () => {
       .and.returnValue(of({}))
   }
   const HostModule = createHost(MappingsListComponent, {}, {
-    declarations: [TableComponent],
+    declarations: [TableComponent, DebounceKeyupDirective],
     imports: [fakeRoutes(MappingsListComponent)],
     providers: [
-      {provide: WiremockService, useValue: wiremockMock}
+      {provide: WiremockService, useValue: wiremockMock},
+      {provide: ActivatedRoute, useValue: currentRoute},
     ]
   })
 
-  const cellWithValue = (value) => jasmine.objectContaining({value})
-  const rowWithValues = (...values) => values.map(cellWithValue)
-
   beforeEach(async(() => {
+    currentRoute.queryParams = of({})
     return TestBed.configureTestingModule({
       imports: [HostModule]
     }).compileComponents()
@@ -53,7 +58,7 @@ describe('MappingListComponent', () => {
     expect(table.rows[0]).toEqual(rowWithValues('Get Thor', 'GET', '/aesir/thor'))
   })
 
-  it('allows text-based filtering of the mappings', () => {
+  it('allows text-based filtering of the mappings', fakeAsync(() => {
     const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
 
@@ -61,10 +66,11 @@ describe('MappingListComponent', () => {
     expect(table.rows.length).toEqual(2)
 
     host.fillIn('.filter-input', 'odin')
+    host.tick(150)
 
     expect(table.rows.length).toEqual(1)
     expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin'))
-  })
+  }))
 
   it('allows resetting mappings', () => {
     const host = page(TestBed.createComponent(HostModule.host))
@@ -74,4 +80,22 @@ describe('MappingListComponent', () => {
 
     expect(wiremockMock.resetMappings).toHaveBeenCalled()
   })
+
+  it('adds the filter to the navigation history', fakeAsync(inject([Router], (router: Router) => {
+    const host = page(TestBed.createComponent(HostModule.host))
+    host.detectChanges()
+
+    host.fillIn('.filter-input', 'odin')
+    tick(150)
+
+    expect(router.url).toContain('filter=odin')
+  })))
+
+  it('retrieves the filter from the URL on boot', inject([ActivatedRoute], (route: ActivatedRoute) => {
+    route.queryParams = of({filter: 'initial-filter'})
+    const host = page(TestBed.createComponent(HostModule.host))
+    host.detectChanges()
+
+    expect(host.$('.filter-input').value).toEqual('initial-filter')
+  }))
 })

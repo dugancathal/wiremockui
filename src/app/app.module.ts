@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppComponent } from './app.component'
 import { ConfigComponent } from './config/config.component'
+import { DebounceKeyupDirective } from './lib/debounce/debounce.directive'
 import { TableComponent } from './lib/table/table.component'
 import { WindowWrapper } from './lib/window/window-wrapper'
 import { MAPPINGS_COMPONENTS } from './mappings'
@@ -26,6 +27,7 @@ import { WiremockService } from './wiremock/wiremock.service'
     RequestsShowComponent,
     TableComponent,
     ConfigComponent,
+    DebounceKeyupDirective
   ],
   imports: [
     BrowserModule,
