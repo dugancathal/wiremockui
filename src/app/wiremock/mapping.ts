@@ -20,6 +20,7 @@ export interface RecordedRequest extends Request {
 export interface Response {
   status: number
   body?: string
+  proxyBaseUrl?: string
   jsonBody?: any
   base64Body?: any
   bodyFileName?: string
@@ -30,7 +31,7 @@ export interface Mapping {
   id?: string
   name?: string
   request: Request
-  response: Response
+  response: EnrichedResponse
 }
 
 export interface MappingsResponse {
@@ -54,6 +55,7 @@ export const EMPTY_MAPPING = Object.freeze({
     status: 200,
     jsonBody: {},
     headers: {},
+    isProxied: false,
   }
 })
 
@@ -63,6 +65,11 @@ function tryPrettyPrint(body: string) {
   } catch(e) {
     return body
   }
+}
+
+export interface EnrichedResponse extends Response {
+  proxyTo?: string
+  isProxied?: boolean
 }
 
 export const enrichRequest = (request) => {
@@ -83,12 +90,14 @@ export const enrichRequest = (request) => {
   }
 }
 
-export const enrichResponse = (response) => {
+export const enrichResponse = (response): EnrichedResponse => {
   const body = tryPrettyPrint(response.body)
   return {
     ...response,
+    proxyTo: response.proxyBaseUrl ? response.proxyBaseUrl : 'STATIC',
+    isProxied: !!response.proxyBaseUrl,
     body
-  }
+  } as EnrichedResponse
 }
 
 export const enrichMapping = (mapping): Mapping => {

@@ -1,4 +1,7 @@
-<h1>{{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}</h1>
+<h1>{{mapping.name}} - {{mapping.request.method}} {{mapping.request.url}}
+  <small class="proxy-tag pill warning" *ngIf="mapping.response.isProxied">Proxied To: {{mapping.response.proxyTo}}</small>
+  <small class="proxy-tag pill" *ngIf="!mapping.response.isProxied">NOT PROXIED</small>
+</h1>
 
 <div class="options">
   <button class="show-json buttonish" type="button" (click)="showJSON = !showJSON">
@@ -60,13 +63,15 @@
 
 <div class="response-definition">
   <h3>Response</h3>
-  <dl>
+  <p *ngIf="mapping.response.isProxied" class="pill warning">Proxied To: {{mapping.response.proxyTo}}</p>
+
+  <dl *ngIf="!mapping.response.isProxied">
     <dt>Status</dt>
-    <dd>{{mapping.response.status}}</dd>
+    <dd class="response-status">{{mapping.response.status}}</dd>
 
     <dt>Headers</dt>
     <dd>
-      <ul>
+      <ul class="response-headers">
         <li *ngFor="let header of keys(mapping.response.headers)">
           {{header}}: {{mapping.response.headers[header] | json}}
         </li>
@@ -74,6 +79,6 @@
     </dd>
 
     <dt>Body</dt>
-    <dd><pre class="code">{{mapping.response.body}}</pre></dd>
+    <dd class="response-body"><pre class="code">{{mapping.response.body}}</pre></dd>
   </dl>
 </div>

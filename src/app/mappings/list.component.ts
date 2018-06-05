@@ -62,12 +62,12 @@ export class MappingsListComponent implements OnInit {
   private loadMappings() {
     return this.api.mappings().subscribe(mappings => {
       this.mappings = this.toTable(mappings)
-      this.onFilterChange(this.filter)
+      this.onFilterChange(this.filter || '')
     })
   }
 
   private filterRows = (newFilter: string) => {
-    const rowToString = (row) => row[0].toLowerCase()
+    const rowToString = (row) => (row[0] || '').toLowerCase()
     this.filteredMappings = rowFilter(this.mappings, rowToString, newFilter.toLowerCase().split(/\s+/))
   }
 
@@ -76,7 +76,8 @@ export class MappingsListComponent implements OnInit {
       return [
         cell(mapping.name, identity, {href: `/mappings/${mapping.id}`}),
         cell(mapping.request.method),
-        cell(mapping.request.url)
+        cell(mapping.request.url),
+        cell(mapping.response.proxyTo)
       ]
     })
   }

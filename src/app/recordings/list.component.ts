@@ -54,7 +54,7 @@ export class RequestsListComponent implements OnInit {
   onFilterChange(newFilter: string) {
     this.filter = newFilter
     this.router.navigate([], {queryParams: {filter: newFilter}, queryParamsHandling: 'merge'})
-    this.filterRows(newFilter)
+    this.filterRows(newFilter || '')
   }
 
   private filterRows = (newFilter: string) => {

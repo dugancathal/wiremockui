@@ -49,5 +49,13 @@ describe('API Transformations', () => {
         expect(enrichResponse(response).body).toEqual(`I'm just a string`)
       })
     })
+
+    it('denotes responses that come from proxies', () => {
+      const proxiedResponse = {proxyBaseUrl: 'https://jsonplaceholder.typicode.com'}
+      expect(enrichResponse(proxiedResponse).proxyTo).toEqual('https://jsonplaceholder.typicode.com')
+
+      const staticResponse = {body: "is a wonderland"}
+      expect(enrichResponse(staticResponse).proxyTo).toEqual('STATIC')
+    })
   })
 })

@@ -15,14 +15,20 @@ const MAPPINGS = [
     id: 'imma-mapping-id',
     name: 'Get Thor',
     request: {method: 'GET', url: '/aesir/thor'},
-    response: {}
+    response: {proxyTo: 'STATIC'}
   },
   {
     id: 'imma-mapping-id-2',
     name: 'Get Odin',
     request: {method: 'GET', url: '/aesir/odin'},
-    response: {}
-  }
+    response: {proxyTo: 'STATIC'}
+  },
+  {
+    id: 'imma-mapping-id-3',
+    name: 'Get Freya',
+    request: {method: 'GET', url: '/aesir/freya'},
+    response: {proxyTo: 'http://example.com'}
+  },
 ]
 
 describe('MappingListComponent', () => {
@@ -55,7 +61,8 @@ describe('MappingListComponent', () => {
     const host = page(TestBed.createComponent(HostModule.host))
     host.detectChanges()
     const table = host.$ng('wiremockui-table').componentInstance
-    expect(table.rows[0]).toEqual(rowWithValues('Get Thor', 'GET', '/aesir/thor'))
+    expect(table.rows[0])
+      .toEqual(rowWithValues('Get Thor', 'GET', '/aesir/thor', 'STATIC'))
   })
 
   it('allows text-based filtering of the mappings', fakeAsync(() => {
@@ -63,13 +70,13 @@ describe('MappingListComponent', () => {
     host.detectChanges()
 
     const table = host.$ng('wiremockui-table').componentInstance
-    expect(table.rows.length).toEqual(2)
+    expect(table.rows.length).toEqual(MAPPINGS.length)
 
     host.fillIn('.filter-input', 'odin')
     host.tick(150)
 
     expect(table.rows.length).toEqual(1)
-    expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin'))
+    expect(table.rows[0]).toEqual(rowWithValues('Get Odin', 'GET', '/aesir/odin', 'STATIC'))
   }))
 
   it('allows resetting mappings', () => {

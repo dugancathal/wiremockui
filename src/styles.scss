@@ -1,3 +1,4 @@
+@import "styles/colors";
 body {
   margin: 0;
 }
@@ -37,11 +38,13 @@ body {
   box-shadow: none;
 }
 
-$danger-red: #c33030;
-$success-green: #30c330;
 .danger {
   background-color: $danger-red;
   color: white;
+}
+
+.warning {
+  background-color: $warning-yellow;
 }
 
 .success {

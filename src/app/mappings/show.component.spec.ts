@@ -1,7 +1,6 @@
 import { async, TestBed } from '@angular/core/testing'
 import { ActivatedRoute } from '@angular/router'
 import { of } from 'rxjs/observable/of'
-import * as url from 'url'
 import { fakeRoutes } from '../lib/spec-utils/faux-router-link.spec'
 import { createHost } from '../lib/spec-utils/host.spec'
 import { page } from '../lib/spec-utils/page'
@@ -69,5 +68,43 @@ describe('MappingShowComponent', () => {
     const recordings = host.$('.requests .recordings')
     expect(recordings).toBeTruthy()
     expect(host.$$('.requests .recordings .recording').length).toEqual(4)
+  })
+
+  it('tags the mapping with the proxyUrl when it is proxied', () => {
+    wiremockMock.mapping.and.returnValue(of({
+      ...MAPPING, response: {
+        ...MAPPING.response,
+        isProxied: true,
+        proxyTo: 'http://example.com'
+      }
+    }))
+    const host = page(TestBed.createComponent(HostModule.host))
+    host.detectChanges()
+
+    expect(host.$('.proxy-tag')).toBeTruthy()
+    expect(host.$('.proxy-tag').textContent).toContain('http://example.com')
+
+    expect(host.$('.response-status')).toBeFalsy()
+    expect(host.$('.response-headers')).toBeFalsy()
+    expect(host.$('.response-body')).toBeFalsy()
+  })
+
+  it('marks the mapping as STATIC when the response is not proxied', () => {
+    wiremockMock.mapping.and.returnValue(of({
+      ...MAPPING, response: {
+        ...MAPPING.response,
+        isProxied: false,
+        proxyTo: 'STATIC'
+      }
+    }))
+    const host = page(TestBed.createComponent(HostModule.host))
+    host.detectChanges()
+
+    expect(host.$('.proxy-tag')).toBeTruthy()
+    expect(host.$('.proxy-tag').textContent).toContain('NOT PROXIED')
+
+    expect(host.$('.response-status')).toBeTruthy()
+    expect(host.$('.response-headers')).toBeTruthy()
+    expect(host.$('.response-body')).toBeTruthy()
   })
 })

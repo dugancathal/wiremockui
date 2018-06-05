@@ -23,6 +23,16 @@
   border-radius: 0.25rem;
 }
 
+.pill {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin: 0.25rem;
+}
+
+small {
+  font-size: 1rem;
+}
+
 dl {
   width: 100%;
   overflow: hidden;
@@ -62,4 +72,8 @@ ul {
 
 li {
   margin-bottom: 0.25rem;
+}
+
+h1 {
+  display: flex;
 }

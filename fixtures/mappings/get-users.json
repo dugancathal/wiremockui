@@ -1,0 +1,12 @@
+{
+  "id": "358d9b2c-db17-4f33-a27d-81fc3f751999",
+  "uuid": "358d9b2c-db17-4f33-a27d-81fc3f751999",
+  "name": "Get Users",
+  "request": {
+    "method": "GET",
+    "url": "/users"
+  },
+  "response": {
+    "proxyBaseUrl": "https://jsonplaceholder.typicode.com"
+  }
+}
