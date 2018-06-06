@@ -1,10 +1,11 @@
 import { HTTP_METHOD } from './http-methods'
-import { RecordedRequest, Response } from './mapping'
+import { Mapping, RecordedRequest, Response } from './mapping'
 
 export interface Recording {
   id?: string
   request: RecordedRequest
   response: Response
+  stubMapping: Mapping
   wasMatched: boolean
 }
 
@@ -22,6 +23,10 @@ export const EMPTY_RECORDING = Object.freeze({
     body: '',
     headers: {},
   },
+  stubMapping: {
+    request: {},
+    response: {}
+  }
 }) as Recording
 
 export interface RecordingsResponse {

@@ -8,6 +8,10 @@
   <p [class.danger]="!recording.wasMatched" [class.success]="recording.wasMatched" class="buttonish buttonish-disabled">
     {{recording.wasMatched ? 'Was Matched' : 'Was NOT Matched'}}
   </p>
+
+  <p *ngIf="recording.stubMapping.response.isProxied" class="buttonish buttonish-disabled warning">
+    Was Proxied
+  </p>
 </div>
 
 <div class="show-the-codes">

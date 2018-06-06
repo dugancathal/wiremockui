@@ -62,7 +62,11 @@ export class WiremockService {
       .map((resp: Recording) => ({
         ...resp,
         request: enrichRequest(resp.request),
-        response: enrichResponse(resp.response)
+        response: enrichResponse(resp.response),
+        stubMapping: {
+          request: enrichRequest(resp.stubMapping.request),
+          response: enrichResponse(resp.stubMapping.response),
+        }
       }))
   }
 
