@@ -32,7 +32,8 @@ export class MappingsListComponent implements OnInit {
   headers: Row = [
     cell('Name'),
     cell('Request Method'),
-    cell('Path')
+    cell('Path'),
+    cell('Proxy?')
   ]
   mappings: Row[] = []
   filteredMappings: Row[]
